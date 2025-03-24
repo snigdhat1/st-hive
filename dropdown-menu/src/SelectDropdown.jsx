@@ -5,6 +5,7 @@ const SelectDropdown = ({ items, multiSelect = false }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const [selectedItems, setSelectedItems] = useState(multiSelect ? [] : null);
+    const [selectAll, setSelectAll] = useState(false);
 
     // Effect to handle clicks outside the dropdown. If clicked outside of the dropdown, the dropdown will close.
     useEffect(() => {
@@ -18,7 +19,19 @@ const SelectDropdown = ({ items, multiSelect = false }) => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
+
+    // Effect to handle select all/deselect all
+    useEffect(() => {
+        if (selectAll) {
+            setSelectedItems(items.map(item => item.id));
+        } else {
+            setSelectedItems([]);
+        }
+    }, [selectAll, items]);
+
     // Function to handle item selection
+    // If an item is clicked in multi-select mode, it toggles in selectedItems.
+    // If an item is clicked in single-select mode, it sets the selected item and closes the dropdown.
     const handleSelection = (id) => {
         if (multiSelect) {
             setSelectedItems((prevSelected) =>
@@ -44,13 +57,25 @@ const SelectDropdown = ({ items, multiSelect = false }) => {
                                 .join(", ")
                             : "Select options"
                         : selectedItems
-                        ? items.find(item => item.id === selectedItems)?.title
+                        ? items.find(item => item.id === selectedItems)?.title || "Select an item"
                         : "Select an item"}
                 </span>
                 <span className="dropdown-caret">{isOpen ? "▲" : "▼"}</span>
             </button>
             {/* Dropdown options */}
             <ul className={`dropdown-options ${isOpen ? "open" : ""}`}>
+                {/* UI for select all option */}
+                {multiSelect && (
+                    <li className="dropdown-option">
+                        <input
+                            type="checkbox"
+                            checked={selectedItems.length === items.length}
+                            onChange={() => setSelectAll(!selectAll)}
+                            className="dropdown-checkbox"
+                        />
+                        <span>Select All</span>
+                    </li>
+                )}
                 {items.map((item) => {
                     const isSelected = multiSelect
                         ? selectedItems.includes(item.id)
