@@ -1,0 +1,66 @@
+.multi-select-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 100%; 
+    position: relative;
+    margin-top: 20px; 
+}
+
+/* Dropdown Header */
+.multi-select-header {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 5px;
+    width: 200px; /* Adjust width for consistency */
+}
+
+.multi-select-caret {
+    font-size: 14px;
+}
+
+/* Dropdown Options */
+.multi-select-options {
+    display: none; 
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 200px; 
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    list-style: none;
+    padding: 5px 0;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+/* Ensure dropdown appears when open */
+.multi-select-container .multi-select-options.open {
+    display: block;
+}
+
+/* Individual Option */
+.multi-select-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.multi-select-option:hover {
+    background-color: #f0f0f0;
+}
+
+/* Checkbox Styling */
+.multi-select-checkbox {
+    margin-right: 8px;
+}
